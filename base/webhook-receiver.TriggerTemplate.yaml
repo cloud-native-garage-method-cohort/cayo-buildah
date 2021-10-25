@@ -1,0 +1,30 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: webhook-receiver
+spec:
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: supper-app-
+      spec:
+        serviceAccountName: build-robot
+        params:
+          - name: app-name
+            value: supper-app
+          - name: image-repo
+            value: quay.io/cayops/super-app
+          - name: source-repo
+            value: https://github.com/cloud-native-garage-method-cohort/cayo-buildah.git
+        pipelineRef:
+          name: express-ci
+        workspaces:
+          - name: pipeline-shared-data
+            volumeClaimTemplate:
+              spec:
+                resources:
+                  requests:
+                    storage: 1Gi
+                accessModes:
+                  - ReadWriteOnce
