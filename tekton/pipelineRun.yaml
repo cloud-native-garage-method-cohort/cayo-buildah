@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: express-ci-
+spec:
+  serviceAccountName: build-robot
+  params:
+    - name: git-repo
+      value: "https://github.com/cloud-native-garage-method-cohort/cayo-buildah.git"
+    - name: image-repo
+      value: "quay.io/cayops/super-app"
+  pipelineRef:
+    name: express-ci
+  workspaces:
+  - name: pipeline-shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce 
+        resources:
+          requests:
+            storage: 1Gi
+
