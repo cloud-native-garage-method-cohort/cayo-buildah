@@ -15,7 +15,7 @@ spec:
             value: supper-app
           - name: image-repo
             value: quay.io/cayops/super-app
-          - name: source-repo
+          - name: git-repo
             value: https://github.com/cloud-native-garage-method-cohort/cayo-buildah.git
         pipelineRef:
           name: express-ci
